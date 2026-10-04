@@ -1,0 +1,25 @@
+class Solution {
+    public boolean checkValidString(String s) {
+        int minOpen = 0; // minimum possible '(' count
+        int maxOpen = 0; // maximum possible '(' count
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                minOpen++;
+                maxOpen++;
+            } else if (c == ')') {
+                if (minOpen > 0) minOpen--; // ')' can close one '('
+                maxOpen--; // ')' reduces max possible '('
+            } else { // '*'
+                if (minOpen > 0) minOpen--; // '*' can act as ')'
+                maxOpen++; // '*' can act as '('
+            }
+
+            // if too many ')' appear
+            if (maxOpen < 0) return false;
+        }
+
+        // valid only if all '(' can be closed
+        return minOpen == 0;
+    }
+}
