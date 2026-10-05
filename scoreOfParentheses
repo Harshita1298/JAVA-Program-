@@ -1,0 +1,29 @@
+class Solution {
+    public int scoreOfParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                stack.push(-1); // marker for '('
+            } else {
+                if (stack.peek() == -1) {
+                    stack.pop();
+                    stack.push(1); // "()" = 1
+                } else {
+                    int sum = 0;
+                    while (stack.peek() != -1) {
+                        sum += stack.pop();
+                    }
+                    stack.pop(); // remove '(' marker
+                    stack.push(2 * sum); // (A) = 2*A
+                }
+            }
+        }
+        
+        int result = 0;
+        while (!stack.isEmpty()) {
+            result += stack.pop();
+        }
+        return result;
+    }
+}
